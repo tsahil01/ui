@@ -1,8 +1,7 @@
 "use client";
 
-import { UploadConfig } from "@/components/file-upload/types";
 import { cn } from "@/lib/utils";
-import { FileUpload } from "@tsahil01/ui";
+import { FileUpload, UploadConfig } from "@ui/file-upload";
 
 export default function Home() {
   const config: UploadConfig = {
