@@ -3,11 +3,6 @@
 import { cn } from "@/lib/utils";
 import { FileUpload, UploadConfig } from "@tsahil01/file-upload";
 import { useState } from "react";
-import * as Checkbox from "@radix-ui/react-checkbox";
-import * as Switch from "@radix-ui/react-switch";
-import * as Tabs from "@radix-ui/react-tabs";
-
-
 
 export default function DemoPage() {
     const [config, setConfig] = useState<UploadConfig>({
@@ -15,238 +10,241 @@ export default function DemoPage() {
         size: "md",
         allowMultiple: true,
         maxSizeInMb: 10,
-        accept: ["image/*", "application/pdf"],
+        accept: ["image/*"],
         label: {
-            button: "Upload Documents",
-            dropZone: "Drag and drop files here.",
+            button: "Upload Files",
+            dropZone: "Drag and drop files here or click to browse",
         },
         theme: {
             bgTheme: "dark",
             radius: "lg",
-            borderStyle: "double",
+            borderStyle: "dashed",
         },
     });
 
+    const llmTxt = ` 
+// installation
+npm install @tsahil01/file-upload
+
+// config
+interface UploadConfig {
+    variant: 'button' | 'dragDrop' | 'preview' | 'compact';
+    size: 'xs' | 'sm' | 'md' | 'lg';
+    allowMultiple: boolean;
+    maxSizeInMb: number;
+    accept: string[];
+    label: {
+        button: string;
+        dropZone: string;
+    };
+    theme?: {
+        radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+        borderStyle?: 'solid' | 'dashed' | 'dotted' | 'double';
+        bgTheme?: 'dark' | 'light';
+    };
+}`
+
+    const [configJson, setConfigJson] = useState(() =>
+        JSON.stringify(config, null, 2)
+    );
+
     const handleUpload = () => {
-        console.log("Uploading...");
-    }
+        console.log("Uploading files...");
+    };
+
+    const handleConfigChange = (newConfig: string) => {
+        setConfigJson(newConfig);
+        try {
+            const parsed = JSON.parse(newConfig);
+            setConfig(parsed);
+        } catch (error) {
+            console.error("Invalid JSON config");
+        }
+    };
 
     const updateConfig = (updates: Partial<UploadConfig>) => {
-        setConfig(prev => ({ ...prev, ...updates }));
-    };
-
-    const updateTheme = (updates: Partial<UploadConfig['theme']>) => {
-        setConfig(prev => ({
-            ...prev,
-            theme: { ...prev.theme, ...updates }
-        }));
-    };
-
-    const updateLabels = (updates: Partial<UploadConfig['label']>) => {
-        setConfig(prev => ({
-            ...prev,
-            label: { ...prev.label, ...updates }
-        }));
+        const newConfig = { ...config, ...updates };
+        setConfig(newConfig);
+        setConfigJson(JSON.stringify(newConfig, null, 2));
     };
 
     return (
-        <div className={cn("flex flex-col md:flex-row items-center justify-between h-screen w-screen mx-auto gap-4 bg-zinc-950")}>
-            <div className={cn("flex flex-col items-center justify-center w-1/2 h-full", {
-                "bg-zinc-100": config.theme?.bgTheme === "light",
-                "bg-zinc-950": config.theme?.bgTheme === "dark",
-            })}>
-                <FileUpload config={config} onUpload={handleUpload} />
-            </div>
-            <div className="flex flex-col w-1/2 bg-zinc-900 h-full p-6 overflow-y-auto">
-                <h2 className="text-xl font-semibold text-white mb-6">Config</h2>
-                
-                <Tabs.Root defaultValue="variant" className="w-full">
-                    <Tabs.List className="flex space-x-1 bg-zinc-800 p-1 rounded-lg mb-6">
-                        <Tabs.Trigger
-                            value="variant"
-                            className="flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors data-[state=active]:bg-zinc-700 data-[state=active]:text-white text-zinc-400"
-                        >
-                            Variant
-                        </Tabs.Trigger>
-                        <Tabs.Trigger
-                            value="theme"
-                            className="flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors data-[state=active]:bg-zinc-700 data-[state=active]:text-white text-zinc-400"
-                        >
-                            Theme
-                        </Tabs.Trigger>
-                        <Tabs.Trigger
-                            value="settings"
-                            className="flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors data-[state=active]:bg-zinc-700 data-[state=active]:text-white text-zinc-400"
-                        >
-                            Settings
-                        </Tabs.Trigger>
-                    </Tabs.List>
+        <>
+            <div className="flex flex-col lg:flex-row h-screen bg-zinc-950">
+                <div className="flex-1 flex items-center justify-center w-full h-full p-4 lg:p-8">
+                    <div className={cn("p-4 lg:p-8 rounded-lg", {
+                        "bg-white": config.theme?.bgTheme === "light",
+                        "bg-zinc-900": config.theme?.bgTheme === "dark",
+                    })}>
+                        <FileUpload config={config} onUpload={handleUpload} />
+                    </div>
+                </div>
 
-                    <Tabs.Content value="variant" className="space-y-4">
-                        <div>
-                            <h3 className="text-sm font-medium text-zinc-300 mb-3">Variant</h3>
-                            <div className="grid grid-cols-2 gap-2">
-                                {(['button', 'dragDrop', 'preview', 'compact'] as const).map((variant) => (
-                                    <Checkbox.Root
-                                        key={variant}
-                                        checked={config.variant === variant}
-                                        onCheckedChange={() => updateConfig({ variant })}
-                                        className="flex items-center space-x-2 p-3 rounded-lg border border-zinc-700 bg-zinc-800 hover:bg-zinc-700 transition-colors"
-                                    >
-                                        <Checkbox.Indicator className="text-blue-500">
-                                            <div className="w-4 h-4 bg-blue-500 rounded-sm flex items-center justify-center">
-                                                <div className="w-2 h-2 bg-white rounded-sm"></div>
-                                            </div>
-                                        </Checkbox.Indicator>
-                                        <span className="text-sm text-zinc-300 capitalize">
+                <div className="w-full lg:w-1/3 bg-zinc-900 lg:border-l border-zinc-800 p-4 lg:p-6 overflow-y-auto">
+                    <div className="flex items-center justify-between mb-4 lg:mb-6">
+                        <h2 className="text-lg lg:text-xl font-semibold text-white">Live Config Editor</h2>
+                    </div>
+                    
+                    <div className="mb-4">
+                        <div className="mt-2 p-3 lg:p-4 bg-zinc-800 rounded-lg text-xs text-zinc-300 space-y-3">
+                            <div>
+                                <h4 className="font-medium text-zinc-200 mb-2">llm.txt</h4>
+                                <pre className="bg-zinc-900 p-2 rounded overflow-x-auto text-xs">
+                                    {llmTxt}
+                                </pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-4">
+                        <div className="flex-1">
+                            <div className="relative">
+                                <textarea
+                                    value={configJson}
+                                    onChange={(e) => handleConfigChange(e.target.value)}
+                                    className={cn(
+                                        "w-full h-48 lg:h-96 p-3 lg:p-4 font-mono text-xs lg:text-sm bg-zinc-800 border rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none",
+                                        "border-zinc-700 focus:ring-blue-500"
+                                    )}
+                                    placeholder="Enter JSON configuration..."
+                                    spellCheck={false}
+                                    autoComplete="off"
+                                    autoCorrect="off"
+                                    autoCapitalize="off"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="space-y-3">
+                            <div>
+                                <h3 className="text-xs font-medium text-zinc-300 mb-1">Variant</h3>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {(['button', 'dragDrop', 'preview', 'compact'] as const).map((variant) => (
+                                        <button
+                                            key={variant}
+                                            onClick={() => updateConfig({ variant })}
+                                            className={cn(
+                                                "px-2 lg:px-3 py-2 rounded-md text-xs lg:text-sm font-medium transition-colors",
+                                                config.variant === variant
+                                                    ? "bg-blue-600 text-white"
+                                                    : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+                                            )}
+                                        >
                                             {variant.replace(/([A-Z])/g, ' $1').trim()}
-                                        </span>
-                                    </Checkbox.Root>
-                                ))}
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
 
-                        <div>
-                            <h3 className="text-sm font-medium text-zinc-300 mb-3">Size</h3>
-                            <div className="grid grid-cols-4 gap-2">
-                                {(['xs', 'sm', 'md', 'lg'] as const).map((size) => (
-                                    <Checkbox.Root
-                                        key={size}
-                                        checked={config.size === size}
-                                        onCheckedChange={() => updateConfig({ size })}
-                                        className="flex items-center justify-center p-2 rounded-lg border border-zinc-700 bg-zinc-800 hover:bg-zinc-700 transition-colors"
-                                    >
-                                        <Checkbox.Indicator className="text-blue-500">
-                                            <div className="w-4 h-4 bg-blue-500 rounded-sm flex items-center justify-center">
-                                                <div className="w-2 h-2 bg-white rounded-sm"></div>
-                                            </div>
-                                        </Checkbox.Indicator>
-                                        <span className="text-sm text-zinc-300 font-medium">
+                            <div>
+                                <h3 className="text-xs font-medium text-zinc-300 mb-1">Size</h3>
+                                <div className="grid grid-cols-3 gap-2">
+                                    {(['sm', 'md', 'lg'] as const).map((size) => (
+                                        <button
+                                            key={size}
+                                            onClick={() => updateConfig({ size })}
+                                            className={cn(
+                                                "px-2 lg:px-3 py-2 rounded-md text-xs lg:text-sm font-medium transition-colors",
+                                                config.size === size
+                                                    ? "bg-blue-600 text-white"
+                                                    : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+                                            )}
+                                        >
                                             {size.toUpperCase()}
-                                        </span>
-                                    </Checkbox.Root>
-                                ))}
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    </Tabs.Content>
 
-                    <Tabs.Content value="theme" className="space-y-4">
-                        <div>
-                            <h3 className="text-sm font-medium text-zinc-300 mb-3">Background</h3>
-                            <div className="grid grid-cols-2 gap-2">
-                                {(['light', 'dark'] as const).map((theme) => (
-                                    <Checkbox.Root
-                                        key={theme}
-                                        checked={config.theme?.bgTheme === theme}
-                                        onCheckedChange={() => updateTheme({ bgTheme: theme })}
-                                        className="flex items-center space-x-2 p-3 rounded-lg border border-zinc-700 bg-zinc-800 hover:bg-zinc-700 transition-colors"
-                                    >
-                                        <Checkbox.Indicator className="text-blue-500">
-                                            <div className="w-4 h-4 bg-blue-500 rounded-sm flex items-center justify-center">
-                                                <div className="w-2 h-2 bg-white rounded-sm"></div>
-                                            </div>
-                                        </Checkbox.Indicator>
-                                        <span className="text-sm text-zinc-300 capitalize">
-                                            {theme}
-                                        </span>
-                                    </Checkbox.Root>
-                                ))}
+                            <div className="space-y-2">
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        id="allowMultiple"
+                                        checked={config.allowMultiple}
+                                        onChange={(e) => updateConfig({ allowMultiple: e.target.checked })}
+                                        className="w-3 h-3 text-blue-600 bg-zinc-800 border-zinc-700 rounded focus:ring-blue-500"
+                                    />
+                                    <label htmlFor="allowMultiple" className="text-xs text-zinc-300">
+                                        Allow Multiple Files
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        id="darkTheme"
+                                        checked={config.theme?.bgTheme === "dark"}
+                                        onChange={(e) => updateConfig({
+                                            theme: { ...config.theme, bgTheme: e.target.checked ? "dark" : "light" }
+                                        })}
+                                        className="w-3 h-3 text-blue-600 bg-zinc-800 border-zinc-700 rounded focus:ring-blue-500"
+                                    />
+                                    <label htmlFor="darkTheme" className="text-xs text-zinc-300">
+                                        Dark Theme
+                                    </label>
+                                </div>
                             </div>
-                        </div>
 
-                        <div>
-                            <h3 className="text-sm font-medium text-zinc-300 mb-3">Border Radius</h3>
-                            <div className="grid grid-cols-3 gap-2">
-                                {(['none', 'sm', 'md', 'lg', 'xl', 'full'] as const).map((radius) => (
-                                    <Checkbox.Root
-                                        key={radius}
-                                        checked={config.theme?.radius === radius}
-                                        onCheckedChange={() => updateTheme({ radius })}
-                                        className="flex items-center justify-center p-2 rounded-lg border border-zinc-700 bg-zinc-800 hover:bg-zinc-700 transition-colors"
-                                    >
-                                        <Checkbox.Indicator className="text-blue-500">
-                                            <div className="w-4 h-4 bg-blue-500 rounded-sm flex items-center justify-center">
-                                                <div className="w-2 h-2 bg-white rounded-sm"></div>
-                                            </div>
-                                        </Checkbox.Indicator>
-                                        <span className="text-xs text-zinc-300 font-medium">
+                            <div>
+                                <h3 className="text-xs font-medium text-zinc-300 mb-1">Border Radius</h3>
+                                <div className="grid grid-cols-3 gap-2">
+                                    {(['none', 'sm', 'md', 'lg', 'xl', 'full'] as const).map((radius) => (
+                                        <button
+                                            key={radius}
+                                            onClick={() => updateConfig({
+                                                theme: { ...config.theme, radius }
+                                            })}
+                                            className={cn(
+                                                "px-2 lg:px-3 py-2 rounded-md text-xs lg:text-sm font-medium transition-colors",
+                                                config.theme?.radius === radius
+                                                    ? "bg-blue-600 text-white"
+                                                    : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+                                            )}
+                                        >
                                             {radius.toUpperCase()}
-                                        </span>
-                                    </Checkbox.Root>
-                                ))}
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
 
-                        <div>
-                            <h3 className="text-sm font-medium text-zinc-300 mb-3">Border Style</h3>
-                            <div className="grid grid-cols-2 gap-2">
-                                {(['solid', 'dashed', 'dotted', 'double'] as const).map((style) => (
-                                    <Checkbox.Root
-                                        key={style}
-                                        checked={config.theme?.borderStyle === style}
-                                        onCheckedChange={() => updateTheme({ borderStyle: style })}
-                                        className="flex items-center space-x-2 p-3 rounded-lg border border-zinc-700 bg-zinc-800 hover:bg-zinc-700 transition-colors"
-                                    >
-                                        <Checkbox.Indicator className="text-blue-500">
-                                            <div className="w-4 h-4 bg-blue-500 rounded-sm flex items-center justify-center">
-                                                <div className="w-2 h-2 bg-white rounded-sm"></div>
-                                            </div>
-                                        </Checkbox.Indicator>
-                                        <span className="text-sm text-zinc-300 capitalize">
+                            <div>
+                                <h3 className="text-xs font-medium text-zinc-300 mb-1">Border Style</h3>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {(['solid', 'dashed', 'dotted', 'double'] as const).map((style) => (
+                                        <button
+                                            key={style}
+                                            onClick={() => updateConfig({
+                                                theme: { ...config.theme, borderStyle: style }
+                                            })}
+                                            className={cn(
+                                                "px-2 lg:px-3 py-2 rounded-md text-xs lg:text-sm font-medium transition-colors",
+                                                config.theme?.borderStyle === style
+                                                    ? "bg-blue-600 text-white"
+                                                    : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+                                            )}
+                                        >
                                             {style}
-                                        </span>
-                                    </Checkbox.Root>
-                                ))}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="text-xs text-zinc-300 block mb-1">Max Size (MB)</label>
+                                <input
+                                    type="number"
+                                    value={config.maxSizeInMb}
+                                    onChange={(e) => updateConfig({ maxSizeInMb: Number(e.target.value) })}
+                                    className="w-full px-2 py-1 bg-zinc-800 border border-zinc-700 rounded text-white text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    min="1"
+                                    max="100"
+                                />
                             </div>
                         </div>
-                    </Tabs.Content>
-
-                    <Tabs.Content value="settings" className="space-y-4">
-                        <div className="flex items-center justify-between p-3 rounded-lg border border-zinc-700 bg-zinc-800">
-                            <label className="text-sm text-zinc-300">Multiple Files</label>
-                            <Switch.Root
-                                checked={config.allowMultiple}
-                                onCheckedChange={(checked) => updateConfig({ allowMultiple: checked })}
-                                className="w-11 h-6 bg-zinc-700 rounded-full relative data-[state=checked]:bg-blue-600 transition-colors"
-                            >
-                                <Switch.Thumb className="block w-5 h-5 bg-white rounded-full transition-transform duration-100 translate-x-0.5 will-change-transform data-[state=checked]:translate-x-[22px]" />
-                            </Switch.Root>
-                        </div>
-
-                        <div>
-                            <label className="text-sm text-zinc-300 block mb-2">Max Size (MB)</label>
-                            <input
-                                type="number"
-                                value={config.maxSizeInMb}
-                                onChange={(e) => updateConfig({ maxSizeInMb: Number(e.target.value) })}
-                                className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                min="1"
-                                max="100"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="text-sm text-zinc-300 block mb-2">Button Label</label>
-                            <input
-                                type="text"
-                                value={config.label.button}
-                                onChange={(e) => updateLabels({ button: e.target.value })}
-                                className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="text-sm text-zinc-300 block mb-2">Drop Zone Label</label>
-                            <input
-                                type="text"
-                                value={config.label.dropZone}
-                                onChange={(e) => updateLabels({ dropZone: e.target.value })}
-                                className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-                        </div>
-                    </Tabs.Content>
-                </Tabs.Root>
+                    </div>
+                </div>
             </div>
-        </div>
+        </>
     );
 }
