@@ -4,7 +4,13 @@ import { Root } from "@radix-ui/react-slot";
 import { fileUploadVariants } from "./variants";
 import { UploadConfig } from "./types";
 
-export function ButtonUpload({ config, ref, children }: { config: UploadConfig, ref: React.RefObject<HTMLInputElement | null>, children?: React.ReactNode }) {
+interface ButtonUploadProps {
+    config: UploadConfig;
+    ref: React.RefObject<HTMLInputElement | null>;
+    children?: React.ReactNode;
+}
+
+export function ButtonUpload({ config, ref, children }: ButtonUploadProps) {
     const { variant, size, label, theme } = config;
     const fileInputRef = ref;
 

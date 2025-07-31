@@ -4,7 +4,14 @@ import { cn } from "@/lib/utils";
 import { fileUploadVariants } from "./variants";
 import { MdCloudUpload } from "react-icons/md";
 
-export function DragDropUpload({ config, ref, validateFile, setFiles }: { config: UploadConfig, ref: React.RefObject<HTMLInputElement | null>, validateFile: (fileList: FileList) => File[], setFiles: (files: File[]) => void }) {
+interface DragDropUploadProps {
+    config: UploadConfig;
+    ref: React.RefObject<HTMLInputElement | null>;
+    validateFile: (fileList: FileList) => File[];
+    setFiles: (files: File[]) => void;
+}
+
+export function DragDropUpload({ config, ref, validateFile, setFiles }: DragDropUploadProps) {
     const { variant, size, label, theme, maxSizeInMb } = config;
     const fileInputRef = ref;
     const [isDragging, setIsDragging] = useState(false);

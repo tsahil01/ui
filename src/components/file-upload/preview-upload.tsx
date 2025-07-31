@@ -9,7 +9,16 @@ import { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { GrDocument } from "react-icons/gr";
 
-export function PreviewUpload({ config, ref, validateFile, setFiles, files, onPreview }: { config: UploadConfig, ref: React.RefObject<HTMLInputElement | null>, validateFile: (fileList: FileList) => File[], setFiles: (files: File[] | ((prev: File[]) => File[])) => void, files: File[], onPreview: (file: File) => void }) {
+interface PreviewUploadProps {
+    config: UploadConfig;
+    ref: React.RefObject<HTMLInputElement | null>;
+    validateFile: (fileList: FileList) => File[];
+    setFiles: (files: File[] | ((prev: File[]) => File[])) => void;
+    files: File[];
+    onPreview: (file: File) => void;
+}
+
+export function PreviewUpload({ config, ref, validateFile, setFiles, files, onPreview }: PreviewUploadProps) {
     const { variant, size, label, theme, maxSizeInMb } = config;
     const fileInputRef = ref;
     const [isDragging, setIsDragging] = useState(false);
@@ -78,7 +87,7 @@ export function PreviewUpload({ config, ref, validateFile, setFiles, files, onPr
                 <div className={cn(fileUploadVariants({ variant, size, bgTheme: theme?.bgTheme, radius: theme?.radius, borderStyle: theme?.borderStyle }), "flex flex-col my-auto h-full w-full", {
                 })}>
                     <div className="flex flex-row justify-between w-full my-auto mb-2">
-                        <p className={cn(size === "sm" ? "text-xs" : size === "md" ? "text-sm" : "text-base", "font-bold text-center my-auto")}>Files</p>
+                        <p className={cn(size === "sm" ? "text-xs" : size === "md" ? "text-sm" : "text-base", "font-bold text-center my-auto")}>Uploaded Files</p>
                         <ButtonUpload config={{ ...config, variant: "button", size: "xs" }} ref={fileInputRef}>
                             <MdAdd className={cn("w-4 h-4")} />
                         </ButtonUpload>
