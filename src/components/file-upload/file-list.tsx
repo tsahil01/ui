@@ -5,11 +5,12 @@ import { MdClose } from "react-icons/md";
 interface FileListProps {
     files: File[];
     onRemove: (index: number) => void;
+    onPreview?: (file: File) => void;
     size: "xs" | "sm" | "md" | "lg";
     theme?: "light" | "dark";
 }
 
-export default function FileList({ files, onRemove, size, theme }: FileListProps) {
+export default function FileList({ files, onRemove, onPreview, size, theme }: FileListProps) {
     const textSize = size === "sm" ? "text-xs" : size === "md" ? "text-sm" : "text-base";
     const gapSize = size === "sm" ? "gap-1" : "gap-2";
     const paddingSize = size === "sm" ? "p-1" : "p-2";
@@ -30,10 +31,13 @@ export default function FileList({ files, onRemove, size, theme }: FileListProps
                     >
                         <MdClose className="w-4 h-4" />
                     </button>
-                    <span className={cn(textSize, {
-                        "text-zinc-700": theme !== "dark",
-                        "text-zinc-300": theme === "dark",
-                    })}>
+                    <span 
+                        className={cn(textSize, "cursor-pointer hover:underline", {
+                            "text-zinc-700": theme !== "dark",
+                            "text-zinc-300": theme === "dark",
+                        })}
+                        onClick={() => onPreview?.(file)}
+                    >
                         {file.name.length > 20 ? file.name.slice(0, 30) + "..." : file.name}
                     </span>
                 </div>
@@ -42,7 +46,7 @@ export default function FileList({ files, onRemove, size, theme }: FileListProps
     )
 }
 
-export function FilePreview({ files, onRemove, size, theme }: FileListProps) {
+export function FilePreview({ files, onRemove, onPreview, size, theme }: FileListProps) {
     const isImage = (file: File) => {
         return file.type.startsWith('image/');
     };
@@ -61,10 +65,14 @@ export function FilePreview({ files, onRemove, size, theme }: FileListProps) {
                     <img
                         src={URL.createObjectURL(file)}
                         alt={file.name}
-                        className={cn("object-cover rounded-md", imageSize)}
+                        className={cn("object-cover rounded-md cursor-pointer", imageSize)}
+                        onClick={() => onPreview?.(file)}
                     />
                 ) : (
-                    <GrDocument className={cn("text-zinc-500 rounded-md", imageSize)} />
+                    <GrDocument 
+                        className={cn("text-zinc-500 rounded-md cursor-pointer", imageSize)} 
+                        onClick={() => onPreview?.(file)}
+                    />
                 )}
                 <div className={cn("absolute bottom-0 left-0 right-0 px-1 py-0.5 rounded-b text-center shadow-sm text-xs", {
                     "bg-white/90 text-zinc-800": theme === "light",
@@ -76,12 +84,12 @@ export function FilePreview({ files, onRemove, size, theme }: FileListProps) {
         );
     };
 
-        return (
-            <div className={cn("w-full", {
-                "grid grid-cols-3 gap-1": size === "sm",
-                "grid grid-cols-2 gap-2": size === "md",
-                "grid grid-cols-1 gap-2": size === "lg",
-            })}>
+    return (
+        <div className={cn("w-full", {
+            "grid grid-cols-3 gap-1": size === "sm",
+            "grid grid-cols-2 gap-2": size === "md",
+            "grid grid-cols-1 gap-2": size === "lg",
+        })}>
             {files.map((file, index) => (
                 <div
                     key={index}
