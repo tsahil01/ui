@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "./lib/utils";
 import { UploadConfig } from "./types";
 import { fileUploadVariants } from "./variants";
 import { ButtonUpload } from "./button-upload";

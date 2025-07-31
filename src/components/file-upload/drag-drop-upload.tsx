@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { UploadConfig } from "./types";
-import { cn } from "@/lib/utils";
+import { cn } from "./lib/utils";
 import { fileUploadVariants } from "./variants";
 import { MdCloudUpload } from "react-icons/md";
 

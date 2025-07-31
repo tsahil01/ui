@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "./lib/utils";
 import { GrDocument } from "react-icons/gr";
 import { MdClose } from "react-icons/md";
 

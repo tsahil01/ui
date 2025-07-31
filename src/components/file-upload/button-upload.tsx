@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "./lib/utils";
 import { MdCloudUpload } from "react-icons/md";
 import { Root } from "@radix-ui/react-slot";
 import { fileUploadVariants } from "./variants";

@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "./lib/utils";
 import { fileUploadVariants } from "./variants";
 import { UploadConfig } from "./types";
 import { MdCloudUpload } from "react-icons/md";
