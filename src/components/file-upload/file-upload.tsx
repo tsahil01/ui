@@ -6,6 +6,7 @@ import { ButtonUpload } from "./button-upload";
 import { DragDropUpload } from "./drag-drop-upload";
 import { PreviewUpload, FilePreviewDialog } from "./preview-upload";
 import FileList from "./file-list";
+import { CompactUpload } from "./compact-upload";
 
 interface UploadProps {
     config: UploadConfig;
@@ -62,12 +63,10 @@ export default function FileUpload({ config, onUpload }: UploadProps) {
         setIsDialogOpen(true);
     }
 
-
     const buttonVariant = variant === "button";
     const dragDropVariant = variant === "dragDrop";
     const previewVariant = variant === "preview";
     const compactVariant = variant === "compact";
-
 
     return (<div>
         <input
@@ -83,7 +82,7 @@ export default function FileUpload({ config, onUpload }: UploadProps) {
         {buttonVariant && (<ButtonUpload config={config} ref={fileInputRef} />)}
         {dragDropVariant && (<DragDropUpload config={config} ref={fileInputRef} validateFile={validateFile} setFiles={setFiles} />)}
         {previewVariant && (<PreviewUpload config={config} ref={fileInputRef} validateFile={validateFile} setFiles={setFiles} files={files} onPreview={handleFilePreview} />)}
-        {/* {compactVariant && (<CompactUpload config={config} onUpload={onUpload} />)} */}
+        {compactVariant && (<CompactUpload config={config} ref={fileInputRef} />)}
 
         {!previewVariant &&
             <FileList files={files} onRemove={handleRemoveFile} onPreview={handleFilePreview} size={size} theme={theme?.bgTheme} />
