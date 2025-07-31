@@ -1,26 +1,25 @@
 "use client";
 
-import FileUpload from "@/components/file-upload/file-upload";
 import { UploadConfig } from "@/components/file-upload/types";
 import { cn } from "@/lib/utils";
+import { FileUpload } from "@tsahil01/ui";
 
 export default function Home() {
   const config: UploadConfig = {
     variant: "dragDrop",
-    size: "lg",
+    size: "sm",
     allowMultiple: true
     ,
     maxSizeInMb: 10,
-    accept: ["image/*"],
+    accept: ["image/*", "application/pdf"],
     label: {
-      button: "Upload",
+      button: "Upload Documents",
       dropZone: "Drag and drop files here.",
     },
     theme: {
       bgTheme: "dark",
-      radius: "md",
-      borderStyle: "solid",
-
+      radius: "none",
+      borderStyle: "double",
     },
   }
 
