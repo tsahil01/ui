@@ -4,7 +4,7 @@ export const fileUploadVariants = cva("relative", {
     variants: {
         variant: {
             button: "flex flex-row gap-2 p-3 cursor-pointer mx-auto justify-center items-center",
-            dragDrop: "flex flex-col gap-2 p-3 border-2 border-dashed border-gray-300 rounded-md cursor-pointer",
+            dragDrop: "flex flex-col cursor-pointer gap-2 items-center justify-center",
             preview: "flex flex-col gap-2 p-3 border-2 border-dashed border-gray-300 rounded-md cursor-pointer",
             compact: "flex flex-col gap-2 p-3 border-2 border-dashed border-gray-300 rounded-md cursor-pointer",
         },
@@ -14,8 +14,8 @@ export const fileUploadVariants = cva("relative", {
             lg: "text-lg p-4",
         },
         bgTheme: {
-            light: 'bg-white text-black border border-gray-200 hover:bg-gray-100',
-            dark: 'bg-zinc-900 text-white border border-zinc-800 hover:bg-zinc-800 hover:text-white'
+            light: 'bg-white text-black border border-zinc-300 hover:bg-gray-100',
+            dark: 'bg-zinc-900 text-white border border-zinc-700 hover:bg-zinc-800 hover:text-white'
         },
         radius: {
             none: 'rounded-none',
