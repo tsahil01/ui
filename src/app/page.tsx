@@ -17,6 +17,8 @@ export default function Home() {
           <Link href="/demo" className="text-blue-800 items-start hover:underline font-semibold" style={{ fontFamily: 'var(--font-playfair-display)' }}>/demo</Link>
           <span className="text-gray-700">|</span>
           <Link href="https://github.com/tsahil01/ui" className="text-blue-800 items-start hover:underline font-semibold" style={{ fontFamily: 'var(--font-playfair-display)' }}>/github</Link>
+          <span className="text-gray-700">|</span>
+          <Link href="https://www.npmjs.com/package/@tsahil01/file-upload" className="text-blue-800 items-start hover:underline font-semibold" style={{ fontFamily: 'var(--font-playfair-display)' }}>/npmjs</Link>
         </div>
       </div>
     </div>

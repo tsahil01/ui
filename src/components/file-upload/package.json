@@ -1,6 +1,6 @@
 {
   "name": "@tsahil01/file-upload",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A flexible file upload component with multiple variants",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
