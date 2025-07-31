@@ -14,15 +14,22 @@ export const fileUploadVariants = cva("relative", {
             lg: "text-lg p-4",
         },
         bgTheme: {
-            dark: 'bg-white text-black border border-gray-200 hover:bg-gray-100',
-            light: 'bg-zinc-900 text-white border border-zinc-800 hover:bg-zinc-800 hover:text-white'
+            light: 'bg-white text-black border border-gray-200 hover:bg-gray-100',
+            dark: 'bg-zinc-900 text-white border border-zinc-800 hover:bg-zinc-800 hover:text-white'
         },
         radius: {
             none: 'rounded-none',
             sm: 'rounded-sm',
             md: 'rounded-md',
             lg: 'rounded-lg',
+            xl: 'rounded-xl',
             full: 'rounded-full',
+        },
+        borderStyle: {
+            solid: 'border-solid',
+            dashed: 'border-dashed',
+            dotted: 'border-dotted',
+            double: 'border-double',
         }
     },
     defaultVariants: {
