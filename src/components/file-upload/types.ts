@@ -1,6 +1,6 @@
 export interface UploadConfig {
     variant: 'button' | 'dragDrop' | 'preview' | 'compact';
-    size: 'sm' | 'md' | 'lg';
+    size: 'xs' | 'sm' | 'md' | 'lg';
     allowMultiple: boolean;
     maxSizeInMb: number;
     accept:string[];
