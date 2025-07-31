@@ -17,7 +17,7 @@ export default function FileList({ files, onRemove, size, theme }: FileListProps
         <div className={cn("flex flex-col mt-2", gapSize)}>
             {files.map((file, index) => (
                 <div key={index} className={cn("flex items-center gap-2 p-2 rounded-md", {
-                    "bg-zinc-100": theme === "light",
+                    "bg-white": theme === "light",
                     "bg-zinc-900": theme === "dark",
                 })}>
                     <button 
@@ -33,7 +33,7 @@ export default function FileList({ files, onRemove, size, theme }: FileListProps
                         "text-zinc-700": theme !== "dark",
                         "text-zinc-300": theme === "dark",
                     })}>
-                        {file.name.length > 20 ? file.name.slice(0, 20) + "..." : file.name}
+                        {file.name.length > 20 ? file.name.slice(0, 30) + "..." : file.name}
                     </span>
                 </div>
             ))}
