@@ -1,12 +1,12 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { FileUpload, UploadConfig } from "@ui/file-upload";
+import { FileUpload, UploadConfig } from "@tsahil01/file-upload";
 
 export default function Home() {
   const config: UploadConfig = {
     variant: "dragDrop",
-    size: "sm",
+    size: "md",
     allowMultiple: true
     ,
     maxSizeInMb: 10,
@@ -17,7 +17,7 @@ export default function Home() {
     },
     theme: {
       bgTheme: "dark",
-      radius: "none",
+      radius: "lg",
       borderStyle: "double",
     },
   }

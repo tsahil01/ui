@@ -1,5 +1,5 @@
 {
-  "name": "@ui/file-upload",
+  "name": "@tsahil01/file-upload",
   "version": "1.0.0",
   "description": "A flexible file upload component with multiple variants",
   "main": "dist/index.js",
