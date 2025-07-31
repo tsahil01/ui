@@ -3,10 +3,10 @@ import { cva } from "class-variance-authority";
 export const fileUploadVariants = cva("relative", {
     variants: {
         variant: {
-            button: "flex flex-row gap-2 p-3 cursor-pointer justify-center items-center",
+            button: "flex flex-row gap-2 cursor-pointer justify-center items-center",
             dragDrop: "flex flex-col cursor-pointer gap-2 items-center justify-center w-full",
             preview: "flex",
-            compact: "flex flex-col gap-2 p-3 border-2 border-dashed border-gray-300 rounded-md cursor-pointer",
+            compact: "flex flex-row gap-4 my-auto justify-between items-center",
         },
         size: {
             xs: "text-xs p-1",
