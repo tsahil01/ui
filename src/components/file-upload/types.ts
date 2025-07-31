@@ -9,7 +9,8 @@ export interface UploadConfig {
         dropZone: string;
     }
     theme?: {
-        radius?: 'none' | 'sm' | 'md' | 'lg';
+        radius?: 'none' | 'sm' | 'md' | 'lg' | 'full';
         borderStyle?: 'solid' | 'dashed' | 'dotted';
+        bgTheme?: 'dark' | 'light';
     }
 };
