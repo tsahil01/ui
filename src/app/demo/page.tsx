@@ -3,24 +3,10 @@
 import { cn } from "@/lib/utils";
 import { FileUpload, UploadConfig } from "@tsahil01/file-upload";
 import { useState } from "react";
+import { defaultConfig } from "./config";
 
 export default function DemoPage() {
-    const [config, setConfig] = useState<UploadConfig>({
-        variant: "dragDrop",
-        size: "md",
-        allowMultiple: true,
-        maxSizeInMb: 10,
-        accept: ["image/*"],
-        label: {
-            button: "Upload Files",
-            dropZone: "Drag and drop files here or click to browse",
-        },
-        theme: {
-            bgTheme: "dark",
-            radius: "lg",
-            borderStyle: "dashed",
-        },
-    });
+    const [config, setConfig] = useState<UploadConfig>(defaultConfig);
 
     const llmTxt = ` 
 // installation
