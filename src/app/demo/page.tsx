@@ -7,22 +7,44 @@ import { defaultConfig } from "./config";
 
 export default function DemoPage() {
     const [config, setConfig] = useState<UploadConfig>(defaultConfig);
+    const [copied, setCopied] = useState(false);
+
+    const copyToClipboard = async () => {
+        try {
+            await navigator.clipboard.writeText(llmTxt);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } catch (err) {
+            console.error('Failed to copy:', err);
+        }
+    };
 
     const llmTxt = ` 
 // installation
 npm install @tsahil01/file-upload
 
-// config
+// basic usage
+import { FileUpload, UploadConfig } from "@tsahil01/file-upload";
+
+const config: UploadConfig = {
+    variant: 'button',
+    size: 'md',
+    allowMultiple: false,
+    maxSizeInMb: 10,
+    accept: ['image/*', '.pdf'],
+    label: { button: 'Choose File', dropZone: 'Drop files here' }
+};
+
+<FileUpload config={config} onUpload={(files) => console.log(files)} />
+
+// config interface
 interface UploadConfig {
     variant: 'button' | 'dragDrop' | 'preview' | 'compact';
     size: 'xs' | 'sm' | 'md' | 'lg';
     allowMultiple: boolean;
     maxSizeInMb: number;
     accept: string[];
-    label: {
-        button: string;
-        dropZone: string;
-    };
+    label: { button: string; dropZone: string; };
     theme?: {
         radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
         borderStyle?: 'solid' | 'dashed' | 'dotted' | 'double';
@@ -74,7 +96,15 @@ interface UploadConfig {
                     <div className="mb-4">
                         <div className="mt-2 p-3 lg:p-4 bg-zinc-800 rounded-lg text-xs text-zinc-300 space-y-3">
                             <div>
-                                <h4 className="font-medium text-zinc-200 mb-2">llm.txt</h4>
+                                <div className="flex items-center justify-between mb-2">
+                                    <h4 className="font-medium text-zinc-200">llm.txt</h4>
+                                    <button
+                                        onClick={copyToClipboard}
+                                        className="px-2 py-1 text-xs bg-zinc-700 hover:bg-zinc-600 text-zinc-300 rounded transition-colors"
+                                    >
+                                        {copied ? 'Copied!' : 'Copy'}
+                                    </button>
+                                </div>
                                 <pre className="bg-zinc-900 p-2 rounded overflow-x-auto text-xs">
                                     {llmTxt}
                                 </pre>
